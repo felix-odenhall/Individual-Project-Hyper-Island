@@ -54,7 +54,7 @@ export default function BookingRequest({ items, weeks }) {
       />
 
       <h1 className=" text-2xl font-bold">Bokningförfrågan</h1>
-      <p className=" italic">
+      <p className=" italic mb-5">
         Obs. detta är en förfrågan och inte en bekräftad bokning
       </p>
       <div className="mb-48">
