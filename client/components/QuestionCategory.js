@@ -24,6 +24,7 @@ export default function QuestionsCategory({ temp }) {
       }
     });
     setQuestionArr([...newArray]);
+    console.log(questionArr);
   }
 
   function renderCategoryQuestions(items) {
@@ -39,6 +40,7 @@ export default function QuestionsCategory({ temp }) {
   }, [questionArr]);
 
   let rows = [];
+
   return (
     <>
       <section className="flex flex-col ">
@@ -53,13 +55,15 @@ export default function QuestionsCategory({ temp }) {
               >
                 {e.category}
               </button>
+              {isQuestionOpen && (
+                <div className="mb-3">
+                  {renderCategoryQuestions(questionArr)}
+                </div>
+              )}
             </>
           );
         })}
       </section>
-      {isQuestionOpen && (
-        <div className="mb-3">{renderCategoryQuestions(questionArr)}</div>
-      )}
     </>
   );
 }
