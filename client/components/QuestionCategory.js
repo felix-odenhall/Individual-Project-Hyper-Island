@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import QuestionsAndAnswersComponent from "./QuestionsAndAnswersComponent";
-import Link from "next/link";
 
 export default function QuestionsCategory({ temp }) {
   const [questionArr, setQuestionArr] = useState([]);
+  const [isQuestionOpen, setIsQuestionOpen] = useState(false);
 
   const categoryArray = [];
   const firstObjectOfCategories = [];
@@ -17,6 +17,7 @@ export default function QuestionsCategory({ temp }) {
 
   function handleClick(e) {
     const newArray = [];
+    setIsQuestionOpen((current) => !current);
     temp.forEach((element) => {
       if (e.target.id === element.category) {
         newArray.push(element);
@@ -27,37 +28,38 @@ export default function QuestionsCategory({ temp }) {
 
   function renderCategoryQuestions(items) {
     let rows = [];
-    items.forEach((item, i) => {
+    items.forEach((item) => {
       rows.push(<QuestionsAndAnswersComponent key={item._id} item={item} />);
     });
-    console.log(rows);
     return rows;
   }
 
   useEffect(() => {
-    console.log("Question ARR: ", questionArr);
     rows = renderCategoryQuestions(questionArr);
-    console.log("rows:", rows);
   }, [questionArr]);
 
   let rows = [];
   return (
     <>
-      <section className="flex flex-row ">
+      <section className="flex flex-col ">
         {firstObjectOfCategories.map((e) => {
           return (
-            <button
-              className=" bg-primary-green-800 text-primary-green-100 text-lg w-72 m-1 p-2"
-              onClick={handleClick}
-              id={e.category}
-              key={e._id}
-            >
-              {e.category}
-            </button>
+            <>
+              <button
+                className=" bg-primary-green-800 text-primary-green-100 text-lg m-1 p-2"
+                onClick={handleClick}
+                id={e.category}
+                key={e._id}
+              >
+                {e.category}
+              </button>
+            </>
           );
         })}
       </section>
-      {renderCategoryQuestions(questionArr)} 
+      {isQuestionOpen && (
+        <div className="mb-3">{renderCategoryQuestions(questionArr)}</div>
+      )}
     </>
   );
 }

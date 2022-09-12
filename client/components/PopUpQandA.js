@@ -3,20 +3,22 @@ import { QuestionCategory } from "./index";
 import { Dialog, Transition } from "@headlessui/react";
 
 export default function PopUpQandA({ temp }) {
+  const [isOpenInfo, setIsOpenInfo] = useState(false);
   const [displayContent, setDisplayContent] = useState(false);
   function handleClick() {
     setDisplayContent((current) => !current);
   }
 
+  function closeModal() {
+    setIsOpenInfo(false);
+  }
+
+  function openModal(e) {
+    setIsOpenInfo(true);
+  }
+
   return (
     <>
-      <button onClick={handleClick}>PopUpQandA</button>
-      {displayContent && (
-        <div className="mb-3">
-          <QuestionCategory temp={temp} />
-        </div>
-      )}
-
       <Transition appear show={isOpenInfo} as={Fragment}>
         <Dialog
           as="div"
@@ -54,12 +56,17 @@ export default function PopUpQandA({ temp }) {
               leaveTo="opacity-0 scale-95"
             >
               <div className="inline-block w-full max-w-md p-4 my-8 overflow-hidden align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <div className="flex justify-end items-center"></div>
+                <div className="flex justify-end items-center">
+                  <div className="mb-3">
+                    <QuestionCategory temp={temp} />
+                  </div>
+                </div>
               </div>
             </Transition.Child>
           </div>
         </Dialog>
       </Transition>
+      <button onClick={openModal}>POPUP</button>
     </>
   );
 }
