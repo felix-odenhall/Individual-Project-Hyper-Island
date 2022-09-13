@@ -3,7 +3,7 @@ import QuestionsAndAnswersComponent from "./QuestionsAndAnswersComponent";
 
 export default function QuestionsCategory({ temp }) {
   const [questionArr, setQuestionArr] = useState([]);
-  const [isQuestionOpen, setIsQuestionOpen] = useState(false);
+  const [isQuestionOpen, setIsQuestionOpen] = useState([]);
 
   const categoryArray = [];
   const firstObjectOfCategories = [];
@@ -17,18 +17,32 @@ export default function QuestionsCategory({ temp }) {
 
   function handleClick(e) {
     const newArray = [];
-    setIsQuestionOpen((current) => !current);
+
+    if (isQuestionOpen.includes(e.target.id)) {
+      const openArray = [...isQuestionOpen];
+      for (let i = 0; i < openArray.length; i++) {
+        if (openArray[i] === e.target.id) {
+          openArray.splice(i, 1);
+        }
+      }
+      setIsQuestionOpen([...openArray]);
+    } else {
+      const openArray = [];
+      openArray.push(e.target.id);
+      setIsQuestionOpen([...openArray]);
+    }
     temp.forEach((element) => {
       if (e.target.id === element.category) {
         newArray.push(element);
+        console.log(element);
       }
     });
     setQuestionArr([...newArray]);
-    console.log(questionArr);
   }
 
   function renderCategoryQuestions(items) {
     let rows = [];
+    console.log("this is items", items);
     items.forEach((item) => {
       rows.push(<QuestionsAndAnswersComponent key={item._id} item={item} />);
     });
@@ -55,7 +69,7 @@ export default function QuestionsCategory({ temp }) {
               >
                 {e.category}
               </button>
-              {isQuestionOpen && (
+              {isQuestionOpen.includes(e.category) && (
                 <div className="mb-3">
                   {renderCategoryQuestions(questionArr)}
                 </div>
