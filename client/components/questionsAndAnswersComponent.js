@@ -4,7 +4,7 @@ import { AiOutlineDown } from "react-icons/ai";
 export default function QuestionsAndAnswersComponent({ item }) {
   const [isShown, setIsShown] = useState(false);
 
-  const handleClick = (event) => {
+  const handleClick = () => {
     setIsShown((current) => !current);
   };
 
